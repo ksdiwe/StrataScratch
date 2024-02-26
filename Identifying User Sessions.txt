@@ -1,0 +1,26 @@
+https://www.interviewquery.com/questions/identifying-user-sessions
+
+SQL:
+
+WITH EventsWithPrevTime AS (
+  SELECT
+    created_at,
+    user_id,
+    event,
+    LAG(created_at, 1, NULL) OVER (PARTITION BY user_id ORDER BY created_at) AS prev_time
+  FROM events
+)
+
+SELECT
+  DATE_FORMAT(created_at, "%Y-%m-%d %H:%i:%s") AS created_at,
+  user_id,
+  event,
+  SUM(CASE 
+        WHEN TIMESTAMPDIFF(MINUTE, prev_time, created_at) <= 60 THEN 0 
+        ELSE 1 
+      END) OVER (PARTITION BY user_id ORDER BY created_at) AS session_id
+FROM EventsWithPrevTime;
+
+Python:
+
+
