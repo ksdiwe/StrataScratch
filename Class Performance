@@ -1,0 +1,11 @@
+Class Performance
+You are given a table containing assignment scores of students in a class. Write a query that identifies the largest difference in total score  of all assignments.
+Output just the difference in total score (sum of all 3 assignments) between a student with the highest score and a student with the lowest score.
+
+> Python Code:
+import numpy as np
+import pandas as pd
+
+box_scores['highest_score'] = box_scores['assignment1'] + box_scores['assignment2'] + box_scores['assignment3']
+difference = box_scores['highest_score'].max() - box_scores['highest_score'].min()
+difference
