@@ -1,0 +1,26 @@
+Differences In Movie Ratings
+Calculate the average lifetime rating and rating from the movie with second biggest id across all actors and all films they had acted in. Remove null ratings from the calculation.
+Role type is "Normal Acting". Output a list of actors, their average lifetime rating, rating from the film with the second biggest id (use id column), and the absolute difference between the two ratings.
+
+>Python Code:
+SELECT sq1.name,
+       sq1.second_last_rating,
+       lifetime_rating,
+       ABS(second_last_rating - lifetime_rating) AS variance
+FROM
+  (SELECT name,
+          rating AS second_last_rating,
+          row_number() OVER (PARTITION BY name
+                             ORDER BY id DESC) AS rk
+   FROM nominee_filmography
+   WHERE rating IS NOT NULL AND role_type = 'Normal Acting'
+   GROUP BY name,
+            rating,
+            id) sq1
+JOIN
+  (SELECT name,
+          avg(rating) AS lifetime_rating
+   FROM nominee_filmography
+   WHERE role_type = 'Normal Acting'
+   GROUP BY name) sq2 ON sq1.name = sq2.name
+WHERE rk = 2
