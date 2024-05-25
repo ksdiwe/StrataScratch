@@ -1,0 +1,11 @@
+Average Salaries
+
+Compare each employee's salary with the average salary of the corresponding department.
+Output the department, first name, and salary of employees along with the average salary of that department.
+
+> Python Code:
+
+import pandas as pd
+
+employee['averge_salary'] = employee.groupby(['department'])['salary'].transform('mean')
+result = employee[['department', 'first_name', 'salary','averge_salary']]
