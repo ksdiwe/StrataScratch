@@ -1,0 +1,10 @@
+Distinct Salaries
+Find the top three distinct salaries for each department. Output the department name and the top 3 distinct salaries by each department. Order your results alphabetically by department and then by highest salary to lowest.
+
+> Python Code:
+import pandas as pd
+import numpy as np
+
+distinct = twitter_employee.drop_duplicates(subset = ['department','salary'])
+top3 = distinct.groupby(['department'])['salary'].nlargest(3).to_frame().reset_index()
+result = pd.merge(top3, distinct, left_on = ['department','salary'], right_on =['department','salary'], how = 'left')[['department','salary']].sort_values(['department','salary'], ascending = [True, False])
