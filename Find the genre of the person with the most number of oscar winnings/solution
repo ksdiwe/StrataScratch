@@ -1,0 +1,7 @@
+import pandas as pd
+import numpy as np
+
+winner = oscar_nominees[oscar_nominees['winner'] == True]
+n_winnings = winner.groupby('nominee').size().to_frame('n_win').reset_index()
+merged = pd.merge(n_winnings, nominee_information, left_on = 'nominee', right_on = 'name', how = 'left')
+result = merged.groupby(['top_genre']).apply(lambda x: x.nlargest(1, 'n_win')).reset_index(drop=True).sort_values('n_win',ascending = False).head(1)[['top_genre']]
