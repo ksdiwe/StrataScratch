@@ -1,0 +1,15 @@
+Find all businesses whose lowest and highest inspection scores are different
+
+Find all businesses whose lowest and highest inspection scores are different.
+Output the corresponding business name and the lowest and highest scores of each business. HINT: you can assume there are no different businesses that share the same business name
+Order the result based on the business name in ascending order.
+
+> Python:
+
+import pandas as pd
+import numpy as np
+
+ins_score = sf_restaurant_health_violations.groupby(['business_name'])['inspection_score'].agg(min_score = 'min', max_score = 'max').reset_index()
+ins_score = ins_score.rename(columns={"": "business_name"})
+result = ins_score[ins_score['min_score'] != ins_score['max_score']].sort_values('business_name')
+result.dropna()
