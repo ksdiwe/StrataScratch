@@ -26,3 +26,11 @@ FROM ranked_cte t1
 JOIN ranked_cte t2
 ON t1.region = t2.region AND t1.expensive_rank = t2.cheapest_rank
 WHERE t1.expensive_rank = 1 and t2.cheapest_rank = 1;
+
+
+
+
+-- Note: The self-join on ranked_cte is used to bring together the variety with the highest price and the variety with the lowest price for each region into one row. Here’s how this works:
+-- t1 refers to the subquery instance for the most expensive variety.
+-- t2 refers to the subquery instance for the cheapest variety.
+-- The join condition ON t1.region = t2.region AND t1.expensive_rank = t2.cheapest_rank ensures that we are matching the region and rank properly.
